@@ -61,7 +61,6 @@ Response:
 ```json
 {
   "urlShort": "aB12Cd",
-  "urlLong": "https://www.google.com"
 }
 ```
 
@@ -100,6 +99,7 @@ Example Response:
 {
   "urlShort": "aB12Cd",
   "urlLong": "https://www.google.com",
+  "createdAt": "2026-06-13T19:54:02.500797",
   "clickCount": 42
 }
 ```
@@ -119,6 +119,7 @@ Example Response:
   {
     "urlShort": "aB12Cd",
     "urlLong": "https://www.google.com",
+    "createdAt": "2026-06-13T20:01:59.020072",
     "clickCount": 42
   }
 ]
