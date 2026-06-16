@@ -27,7 +27,7 @@ public class UrlShortyRepository : IUrlShortyRepository
         return url?.LongUrl;
     }
 
-    public async Task<UrlShorty?> GetByShortCodeFullAsync(string urlShort)
+    public async Task<UrlShorty?> GetAnalyticsAsync(string urlShort)
     {
         var url = await _db.Urls.FirstOrDefaultAsync(u => 
             u.ShortUrl.Equals(urlShort));

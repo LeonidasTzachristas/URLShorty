@@ -8,5 +8,5 @@ public record UrlShortyResponseFull
 
     public DateTime CreatedAt { get; set; }
 
-    public ulong Clicks { get; set; }
+    public long Clicks { get; set; }
 }

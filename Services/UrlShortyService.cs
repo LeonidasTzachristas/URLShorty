@@ -2,6 +2,7 @@
 using RepositoryContracts;
 using ServiceContracts;
 using ServiceContracts.DTOs;
+using ServiceContracts.DTOs.Extensions;
 
 namespace Services;
 
@@ -54,8 +55,21 @@ public class UrlShortyService : IUrlShortyService
         return new UrlShortyResponse(originalUrl);
     }
 
-    public async Task<UrlShortyResponseFull> GetOriginalUrlFullAsync(UrlShortyAddRequest? urlRequest)
+    public async Task<UrlShortyResponseFull?> GetAnalyticsAsync(UrlShortyGetRequest? urlRequest)
     {
-        throw new NotImplementedException();
+        ArgumentNullException.ThrowIfNull(urlRequest);
+        var urlShort = urlRequest.UrlShort;
+        ArgumentNullException.ThrowIfNull(urlShort);
+
+        var urlResponse = await _urlShortyRepository.GetAnalyticsAsync(urlShort);
+        
+        return urlResponse?.ToUrlShortyResponseFull();
+    }
+
+    public async Task<List<UrlShortyResponseFull>> GetAllAnalyticsAsync()
+    {
+        var allUrls = (await _urlShortyRepository.GetAllUrlShorties())
+            .Select(u => u.ToUrlShortyResponseFull()).ToList();
+        return allUrls;
     }
 }

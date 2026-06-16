@@ -8,5 +8,7 @@ public interface IUrlShortyService
 
     Task<UrlShortyResponse> GetOriginalUrlAsync(UrlShortyGetRequest? urlRequest);
 
-    Task<UrlShortyResponseFull> GetOriginalUrlFullAsync(UrlShortyAddRequest? urlRequest);
+    Task<UrlShortyResponseFull?> GetAnalyticsAsync(UrlShortyGetRequest? urlRequest);
+
+    Task<List<UrlShortyResponseFull>> GetAllAnalyticsAsync();
 }

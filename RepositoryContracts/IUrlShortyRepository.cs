@@ -21,7 +21,7 @@ public interface IUrlShortyRepository
     /// <param name="urlShort">The unique short code of the URL.</param>
     /// <returns>Returns a <see cref="UrlShorty"/> instance if found;
     /// otherwise <c>null</c>.</returns>
-    Task<UrlShorty?> GetByShortCodeFullAsync(string urlShort);
+    Task<UrlShorty?> GetAnalyticsAsync(string urlShort);
 
     /// <summary>
     /// Retrieves all the URL records stored in the database.

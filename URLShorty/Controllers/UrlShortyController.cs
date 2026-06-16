@@ -23,18 +23,39 @@ public class UrlShortyController : ControllerBase
             return BadRequest();
             
         var temp = new UrlShortyGetRequest(urlShort);
-        var result = await _urlShortyService.GetOriginalUrlAsync(temp);
+        var result = await _urlShortyService
+            .GetOriginalUrlAsync(temp);
+        
         if (string.IsNullOrEmpty(result.UrlLong))
         {
-            return BadRequest();
+            return NotFound();
         }
         return RedirectPermanent(result.UrlLong);
     }
 
-    [HttpGet("all")]
-    public IActionResult GetAllUrls()
+    [HttpGet("{urlShort}/analytics")]
+    public async Task<IActionResult> GetAnalytics(string? urlShort)
     {
-        return Ok();
+        if (string.IsNullOrEmpty(urlShort))
+            return BadRequest();
+
+        var temp = new UrlShortyGetRequest(urlShort);
+        var result = await _urlShortyService
+            .GetAnalyticsAsync(temp);
+
+        if (result is null)
+        {
+            return NotFound();
+        }
+
+        return Ok(result);
+    }
+
+    [HttpGet("all")]
+    public async Task<IActionResult> GetAllUrls()
+    {
+        var temp = await _urlShortyService.GetAllAnalyticsAsync();
+        return Ok(temp);
     }
     
     [HttpPost]
