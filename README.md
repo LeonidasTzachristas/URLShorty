@@ -25,10 +25,103 @@ This project allows users to convert long URLs into short codes and redirect bac
 - Rider
 
 ---
+## Project Structure
 
-# API Endpoints
+```text
+URLShorty
+├── URLShorty              # Web API
+├── Services               # Business Logic
+├── ServiceContracts       # Service Interfaces & DTOs
+├── Repositories           # Data Access
+├── RepositoryContracts    # Repository Interfaces
+├── Entities               # Domain Models
+└── Tests                  # Unit Tests
+```
 
-### ➕ Create Short URL
+---
+
+## API Endpoints
+
+### Create Short URL
 
 ```http
 POST /api/urls
+```
+
+Request:
+
+```json
+{
+  "urlLong": "https://www.google.com"
+}
+```
+
+Response:
+
+```json
+{
+  "urlShort": "aB12Cd",
+  "urlLong": "https://www.google.com"
+}
+```
+
+---
+
+### Redirect To Original URL
+
+```http
+GET /api/urls/{urlShort}
+```
+
+Example:
+
+```http
+GET /api/urls/aB12Cd
+```
+
+Response:
+
+```http
+301 Moved Permanently
+Location: https://www.google.com
+```
+
+---
+
+### Get URL Analytics
+
+```http
+GET /api/urls/{urlShort}/analytics
+```
+
+Example Response:
+
+```json
+{
+  "urlShort": "aB12Cd",
+  "urlLong": "https://www.google.com",
+  "clickCount": 42
+}
+```
+
+---
+
+### Get Analytics For All URLs
+
+```http
+GET /api/urls/all
+```
+
+Example Response:
+
+```json
+[
+  {
+    "urlShort": "aB12Cd",
+    "urlLong": "https://www.google.com",
+    "clickCount": 42
+  }
+]
+```
+
+---
