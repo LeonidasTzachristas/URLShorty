@@ -1,7 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace Entities;
 
+[Index(nameof(LongUrl), IsUnique = true)]
+[Index(nameof(ShortUrl), IsUnique = true)]
 public class UrlShorty
 {
     [Key]

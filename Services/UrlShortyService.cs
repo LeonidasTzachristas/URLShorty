@@ -17,7 +17,6 @@ public class UrlShortyService : IUrlShortyService
         _urlShortyRepository = urlShortyRepository;
         _hashingService = hashingService;
     }
-
     
     public async Task<UrlShortyResponse> AddUrlShortyAsync(UrlShortyAddRequest? urlRequest)
     {
@@ -33,7 +32,12 @@ public class UrlShortyService : IUrlShortyService
 
         var id = await _urlShortyRepository.AddInitialAsync(initial);
 
-        string hashedCode = _hashingService.HashUrl(urlRequest.UrlLong, id);
+        if (!string.IsNullOrEmpty(id.ShortUrl))
+        {
+            return new UrlShortyResponse(id.ShortUrl);
+        }
+
+        string hashedCode = _hashingService.HashUrl(urlRequest.UrlLong, id.UrlId);
 
         var final = await _urlShortyRepository.UpdateShortUrl(hashedCode, urlRequest.UrlLong);
 
@@ -49,8 +53,8 @@ public class UrlShortyService : IUrlShortyService
         var originalUrl = await _urlShortyRepository
             .GetOriginalUrlAsync(urlRequest.UrlShort);
 
-        if (string.IsNullOrEmpty(originalUrl))
-            throw new KeyNotFoundException();
+        // if (string.IsNullOrEmpty(originalUrl))
+        //     throw new KeyNotFoundException();
 
         return new UrlShortyResponse(originalUrl);
     }

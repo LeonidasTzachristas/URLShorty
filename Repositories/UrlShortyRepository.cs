@@ -15,44 +15,53 @@ public class UrlShortyRepository : IUrlShortyRepository
 
     public async Task<string?> GetOriginalUrlAsync(string urlShort)
     {
-        var url = await _db.Urls.FirstOrDefaultAsync(u => 
-            u.ShortUrl.Equals(urlShort));
+        var url = await _db.Urls.AsNoTracking().FirstOrDefaultAsync(u => 
+            u.ShortUrl == urlShort);
+
+        if (url is null)
+            return null;
+
+        await _db.Database.ExecuteSqlInterpolatedAsync(
+            $"""
+             UPDATE Urls
+             SET Clicks = Clicks + 1
+             WHERE ShortUrl = {urlShort}
+             """);
         
-        if (url is not null)
-        {
-            url.Clicks++;
-            await _db.SaveChangesAsync();
-        }
-        
-        return url?.LongUrl;
+        return url.LongUrl;
     }
 
     public async Task<UrlShorty?> GetAnalyticsAsync(string urlShort)
     {
-        var url = await _db.Urls.FirstOrDefaultAsync(u => 
-            u.ShortUrl.Equals(urlShort));
+        var url = await _db.Urls.AsNoTracking().FirstOrDefaultAsync(u => 
+            u.ShortUrl == urlShort);
         
         return url;
     }
 
     public async Task<List<UrlShorty>> GetAllUrlShorties()
     {
-        return await _db.Urls.ToListAsync();
+        return await _db.Urls.AsNoTracking().ToListAsync();
     }
 
 
-    public async Task<long> AddInitialAsync(UrlShorty urlShorty)
+    public async Task<UrlShorty> AddInitialAsync(UrlShorty urlShorty)
     {
+        var temp = await _db.Urls.FirstOrDefaultAsync(u => 
+            u.LongUrl == urlShorty.LongUrl);
+        if (temp is not null)
+            return temp;
+        
         var url = await _db.Urls.AddAsync(urlShorty);
         await _db.SaveChangesAsync();
 
-        return url.Entity.UrlId;
+        return url.Entity;
     }
 
     public async Task<UrlShorty?> UpdateShortUrl(string urlShort, string urlLong)
     {
         var urlToUpdate = await _db.Urls.FirstOrDefaultAsync(u =>
-            u.LongUrl.Equals(urlLong));
+            u.LongUrl == urlLong);
 
         if (urlToUpdate is null)
             return null;
@@ -61,10 +70,5 @@ public class UrlShortyRepository : IUrlShortyRepository
         await _db.SaveChangesAsync();
 
         return urlToUpdate;
-    }
-
-    public async Task<bool> ExistsAsync(string urlShort)
-    {
-        return await _db.Urls.AnyAsync(u => u.ShortUrl.Equals(urlShort));
     }
 }

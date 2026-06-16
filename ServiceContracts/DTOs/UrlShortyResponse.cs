@@ -1,4 +1,4 @@
 ﻿
 namespace ServiceContracts.DTOs;
 
-public record UrlShortyResponse(string UrlLong);
+public record UrlShortyResponse(string? UrlLong);

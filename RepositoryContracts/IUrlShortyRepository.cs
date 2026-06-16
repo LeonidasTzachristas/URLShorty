@@ -35,7 +35,7 @@ public interface IUrlShortyRepository
     /// </summary>
     /// <param name="urlShorty">The URL entity to add.</param>
     /// <returns>The created <see cref="UrlShorty"/> entity's Id.</returns>
-    Task<long> AddInitialAsync(UrlShorty urlShorty);
+    Task<UrlShorty> AddInitialAsync(UrlShorty urlShorty);
 
     /// <summary>
     /// Updates the newly created URL record with the short code
@@ -44,11 +44,4 @@ public interface IUrlShortyRepository
     /// <param name="urlLong">The original URL to search on.</param>
     /// <returns>The created <see cref="UrlShorty"/> entity.</returns>
     Task<UrlShorty?> UpdateShortUrl(string urlShort, string urlLong);
-
-    /// <summary>
-    /// Determines whether a short code already exists.
-    /// </summary>
-    /// <param name="urlShort">The short code to check.</param>
-    /// <returns><c>true</c> if the short code exists; otherwise, <c>false</c>.</returns>
-    Task<bool> ExistsAsync(string urlShort);
 }
