@@ -23,7 +23,7 @@ public class UrlController : ControllerBase
         var result = await _urlShortenerService
             .GetOriginalUrlAsync(urlRequest);
         
-        if (result?.UrlLong is null)
+        if (result?.Url is null)
             return NotFound();
         
         return Ok(result);
@@ -53,10 +53,11 @@ public class UrlController : ControllerBase
     public async Task<IActionResult> AddUrl
         ([FromBody]UrlAddRequest urlAddRequest)
     {
-        var result = await _urlShortenerService.AddUrlShortyAsync(urlAddRequest);
+        var result = await _urlShortenerService.AddUrlAsync(urlAddRequest);
+        
         return CreatedAtAction(
             nameof(GetOriginalUrl),
-            new { urlShort = result.UrlShort},
+            new { urlShort = result.Url},
             result);
     }
 }

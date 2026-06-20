@@ -18,58 +18,54 @@ public class UrlShortenerService : IUrlShortenerService
         _hashingService = hashingService;
     }
     
-    public async Task<UrlShortResponse> AddUrlShortyAsync(UrlAddRequest? urlRequest)
+    public async Task<UrlResponse> AddUrlAsync(UrlAddRequest urlRequest)
     {
-        ArgumentNullException.ThrowIfNull(urlRequest);
-        ArgumentNullException.ThrowIfNull(urlRequest.UrlLong);
-
-        UrlShortener initial = new UrlShortener()
+        if (string.IsNullOrEmpty(urlRequest.UrlLong))
+            return null;
+            
+        var initial = new UrlShortener()
         {
             LongUrl = urlRequest.UrlLong,
             Clicks = 0,
             CreatedAt = DateTime.Now
         };
 
-        var id = await _urlShortenerRepository.AddInitialAsync(initial);
+        var tempUrl = await _urlShortenerRepository.AddInitialAsync(initial);
 
-        if (!string.IsNullOrEmpty(id.ShortUrl))
+        if (!string.IsNullOrEmpty(tempUrl.ShortUrl))
         {
-            return new UrlShortResponse(id.ShortUrl);
+            return new UrlResponse(tempUrl.ShortUrl);
         }
 
-        string hashedCode = _hashingService.HashUrl(urlRequest.UrlLong, id.UrlId);
+        string hashedCode = _hashingService.HashUrl(urlRequest.UrlLong, tempUrl.UrlId);
 
-        var final = await _urlShortenerRepository.UpdateShortUrl(hashedCode, urlRequest.UrlLong);
+        var final = await _urlShortenerRepository.UpdateShortUrlAsync(hashedCode, urlRequest.UrlLong);
 
-        return new UrlShortResponse(final!.ShortUrl);
+        return new UrlResponse(final!.ShortUrl);
     }
 
-    public async Task<UrlLongResponse?> GetOriginalUrlAsync(UrlGetRequest? urlRequest)
+    public async Task<UrlResponse?> GetOriginalUrlAsync(UrlGetRequest urlRequest)
     {
-        ArgumentNullException.ThrowIfNull(urlRequest);
-        
-        ArgumentNullException.ThrowIfNull(urlRequest.UrlShort);
-
         var originalUrl = await _urlShortenerRepository
-            .GetOriginalUrlAsync(urlRequest.UrlShort);
+            .GetByShortUrlAsync(urlRequest.UrlShort);
 
-        return originalUrl is null ? null : new UrlLongResponse(originalUrl);
+        return originalUrl is null ? null : new UrlResponse(originalUrl.LongUrl);
     }
 
-    public async Task<UrlAnalyticsResponse?> GetAnalyticsAsync(UrlGetRequest? urlRequest)
+    public async Task<UrlAnalyticsResponse?> GetAnalyticsAsync(UrlGetRequest urlRequest)
     {
         ArgumentNullException.ThrowIfNull(urlRequest);
         var urlShort = urlRequest.UrlShort;
         ArgumentNullException.ThrowIfNull(urlShort);
 
-        var urlResponse = await _urlShortenerRepository.GetAnalyticsAsync(urlShort);
+        var urlResponse = await _urlShortenerRepository.GetByShortUrlAsync(urlShort);
         
         return urlResponse?.ToUrlShortyResponseFull();
     }
 
     public async Task<List<UrlAnalyticsResponse>> GetAllAnalyticsAsync()
     {
-        var allUrls = (await _urlShortenerRepository.GetAllUrlShorties())
+        var allUrls = (await _urlShortenerRepository.GetAllUrlsAsync())
             .Select(u => u.ToUrlShortyResponseFull()).ToList();
         return allUrls;
     }

@@ -4,11 +4,11 @@ namespace ServiceContracts;
 
 public interface IUrlShortenerService
 {
-    Task<UrlShortResponse> AddUrlShortyAsync(UrlAddRequest? urlRequest);
+    Task<UrlResponse> AddUrlAsync(UrlAddRequest urlRequest);
 
-    Task<UrlLongResponse?> GetOriginalUrlAsync(UrlGetRequest? urlRequest);
+    Task<UrlResponse?> GetOriginalUrlAsync(UrlGetRequest urlRequest);
 
-    Task<UrlAnalyticsResponse?> GetAnalyticsAsync(UrlGetRequest? urlRequest);
+    Task<UrlAnalyticsResponse?> GetAnalyticsAsync(UrlGetRequest urlRequest);
 
     Task<List<UrlAnalyticsResponse>> GetAllAnalyticsAsync();
 }

@@ -12,34 +12,22 @@ public class UrlShortenerRepository : IUrlShortenerRepository
     {
         _db = db;
     }
-
-    public async Task<string?> GetOriginalUrlAsync(string urlShort)
+    
+    public async Task<UrlShortener?> GetByShortUrlAsync(string urlShort)
     {
-        var url = await _db.Urls.AsNoTracking().FirstOrDefaultAsync(u => 
+        var url = await _db.Urls.FirstOrDefaultAsync(u => 
             u.ShortUrl == urlShort);
 
-        if (url is null)
-            return null;
-
-        await _db.Database.ExecuteSqlInterpolatedAsync(
-            $"""
-             UPDATE Urls
-             SET Clicks = Clicks + 1
-             WHERE ShortUrl = {urlShort}
-             """);
-        
-        return url.LongUrl;
-    }
-
-    public async Task<UrlShortener?> GetAnalyticsAsync(string urlShort)
-    {
-        var url = await _db.Urls.AsNoTracking().FirstOrDefaultAsync(u => 
-            u.ShortUrl == urlShort);
+        if (url is not null)
+        {
+            url.Clicks++;
+            await _db.SaveChangesAsync();
+        }
         
         return url;
     }
 
-    public async Task<List<UrlShortener>> GetAllUrlShorties()
+    public async Task<List<UrlShortener>> GetAllUrlsAsync()
     {
         return await _db.Urls.AsNoTracking().ToListAsync();
     }
@@ -58,7 +46,7 @@ public class UrlShortenerRepository : IUrlShortenerRepository
         return url.Entity;
     }
 
-    public async Task<UrlShortener?> UpdateShortUrl(string urlShort, string urlLong)
+    public async Task<UrlShortener?> UpdateShortUrlAsync(string urlShort, string urlLong)
     {
         var urlToUpdate = await _db.Urls.FirstOrDefaultAsync(u =>
             u.LongUrl == urlLong);
