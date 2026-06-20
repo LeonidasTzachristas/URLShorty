@@ -13,6 +13,7 @@ This project allows users to convert long URLs into short codes and redirect bac
 - Store URLs in a database (MySQL)
 - Clean layered architecture (Controller → Service → Data layer)
 - Async API endpoints
+- API Keys for protected endpoints
 
 ---
 
