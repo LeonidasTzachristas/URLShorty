@@ -109,7 +109,7 @@ Example Response:
 ### Get Analytics For All URLs
 
 ```http
-GET /api/urls/all
+GET /api/urls
 ```
 
 Example Response:
