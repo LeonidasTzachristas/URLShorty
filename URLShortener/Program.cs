@@ -4,6 +4,7 @@ using Repositories;
 using RepositoryContracts;
 using ServiceContracts;
 using Services;
+using URLShortener.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,7 @@ var app = builder.Build();
 
 app.UseStaticFiles();
 app.UseRouting();
+app.UseMiddleware<ApiKeyMiddleware>();
 app.MapControllers();
 
 app.Run();

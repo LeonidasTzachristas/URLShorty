@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ServiceContracts;
 using ServiceContracts.DTOs;
+using URLShortener.Middleware;
 
 namespace URLShortener.Controllers;
 
@@ -29,6 +30,7 @@ public class UrlController : ControllerBase
         return Ok(result);
     }
 
+    [ApiKey]
     [HttpGet("{urlShort}/analytics")]
     public async Task<IActionResult> GetAnalytics
         ([FromRoute]UrlGetRequest urlRequest)
@@ -42,6 +44,7 @@ public class UrlController : ControllerBase
         return Ok(result);
     }
 
+    [ApiKey]
     [HttpGet]
     public async Task<IActionResult> GetAllUrls()
     {
@@ -49,6 +52,7 @@ public class UrlController : ControllerBase
         return Ok(urls);
     }
     
+    [ApiKey]
     [HttpPost]
     public async Task<IActionResult> AddUrl
         ([FromBody]UrlAddRequest urlAddRequest)
