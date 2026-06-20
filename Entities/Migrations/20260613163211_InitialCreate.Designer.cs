@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Entities.Migrations
 {
-    [DbContext(typeof(UrlShortyDbContext))]
+    [DbContext(typeof(UrlShortenerDbContext))]
     [Migration("20260613163211_InitialCreate")]
     partial class InitialCreate
     {

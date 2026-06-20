@@ -5,7 +5,7 @@ namespace RepositoryContracts;
 /// <summary>
 /// Repository for managing shortened URLs.
 /// </summary>
-public interface IUrlShortyRepository
+public interface IUrlShortenerRepository
 {
     /// <summary>
     /// Retrieves the original URL associated with the specified short code.
@@ -19,29 +19,29 @@ public interface IUrlShortyRepository
     /// Retrieves the complete URL record associated with the specified short code.
     /// </summary>
     /// <param name="urlShort">The unique short code of the URL.</param>
-    /// <returns>Returns a <see cref="UrlShorty"/> instance if found;
+    /// <returns>Returns a <see cref="UrlShortener"/> instance if found;
     /// otherwise <c>null</c>.</returns>
-    Task<UrlShorty?> GetAnalyticsAsync(string urlShort);
+    Task<UrlShortener?> GetAnalyticsAsync(string urlShort);
 
     /// <summary>
     /// Retrieves all the URL records stored in the database.
     /// </summary>
-    /// <returns>Returns the <see cref="List{T}"/> of all the <see cref="UrlShorty"/></returns>
-    Task<List<UrlShorty>> GetAllUrlShorties();
+    /// <returns>Returns the <see cref="List{T}"/> of all the <see cref="UrlShortener"/></returns>
+    Task<List<UrlShortener>> GetAllUrlShorties();
 
     /// <summary>
     /// Creates and stores a new shortened URL record that needs to be updated
     /// with the newly created short URL using <see cref="UpdateShortUrl"/>.
     /// </summary>
-    /// <param name="urlShorty">The URL entity to add.</param>
-    /// <returns>The created <see cref="UrlShorty"/> entity's Id.</returns>
-    Task<UrlShorty> AddInitialAsync(UrlShorty urlShorty);
+    /// <param name="urlShortener">The URL entity to add.</param>
+    /// <returns>The created <see cref="UrlShortener"/> entity's Id.</returns>
+    Task<UrlShortener> AddInitialAsync(UrlShortener urlShortener);
 
     /// <summary>
     /// Updates the newly created URL record with the short code
     /// </summary>
     /// <param name="urlShort">The short URL to update.</param>
     /// <param name="urlLong">The original URL to search on.</param>
-    /// <returns>The created <see cref="UrlShorty"/> entity.</returns>
-    Task<UrlShorty?> UpdateShortUrl(string urlShort, string urlLong);
+    /// <returns>The created <see cref="UrlShortener"/> entity.</returns>
+    Task<UrlShortener?> UpdateShortUrl(string urlShort, string urlLong);
 }

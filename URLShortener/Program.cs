@@ -9,11 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddScoped<IUrlShortyRepository, UrlShortyRepository>();
-builder.Services.AddScoped<IUrlShortyService, UrlShortyService>();
+builder.Services.AddScoped<IUrlShortenerRepository, UrlShortenerRepository>();
+builder.Services.AddScoped<IUrlShortenerService, UrlShortenerService>();
 builder.Services.AddScoped<IHashingService, HashingService>();
 
-builder.Services.AddDbContext<UrlShortyDbContext>(options =>
+builder.Services.AddDbContext<UrlShortenerDbContext>(options =>
 {
     var serverVersion = new MySqlServerVersion(new Version(9, 7, 0));
     options.UseMySql(builder.Configuration.GetConnectionString("MySql"), serverVersion)

@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "URLShorty", "URLShorty\URLShorty.csproj", "{C8C640C6-1112-497B-8E4D-CA12B5A2A6CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "URLShortener", "URLShortener\URLShortener.csproj", "{C8C640C6-1112-497B-8E4D-CA12B5A2A6CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{CE30835A-0BCF-413B-8C70-857F80555129}"
 EndProject

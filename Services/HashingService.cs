@@ -16,9 +16,7 @@ public class HashingService : IHashingService
         if (idPart.Length >= 7)
             return idPart;
 
-        byte[] hash =
-            SHA256.HashData(
-                Encoding.UTF8.GetBytes($"{number}:{urlLong}"));
+        byte[] hash = SHA256.HashData(Encoding.UTF8.GetBytes($"{number}:{urlLong}"));
 
         StringBuilder hashPart = new();
 

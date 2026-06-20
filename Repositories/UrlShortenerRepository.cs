@@ -4,11 +4,11 @@ using RepositoryContracts;
 
 namespace Repositories;
 
-public class UrlShortyRepository : IUrlShortyRepository
+public class UrlShortenerRepository : IUrlShortenerRepository
 {
-    private readonly UrlShortyDbContext _db;
+    private readonly UrlShortenerDbContext _db;
 
-    public UrlShortyRepository(UrlShortyDbContext db)
+    public UrlShortenerRepository(UrlShortenerDbContext db)
     {
         _db = db;
     }
@@ -31,7 +31,7 @@ public class UrlShortyRepository : IUrlShortyRepository
         return url.LongUrl;
     }
 
-    public async Task<UrlShorty?> GetAnalyticsAsync(string urlShort)
+    public async Task<UrlShortener?> GetAnalyticsAsync(string urlShort)
     {
         var url = await _db.Urls.AsNoTracking().FirstOrDefaultAsync(u => 
             u.ShortUrl == urlShort);
@@ -39,26 +39,26 @@ public class UrlShortyRepository : IUrlShortyRepository
         return url;
     }
 
-    public async Task<List<UrlShorty>> GetAllUrlShorties()
+    public async Task<List<UrlShortener>> GetAllUrlShorties()
     {
         return await _db.Urls.AsNoTracking().ToListAsync();
     }
 
 
-    public async Task<UrlShorty> AddInitialAsync(UrlShorty urlShorty)
+    public async Task<UrlShortener> AddInitialAsync(UrlShortener urlShortener)
     {
         var temp = await _db.Urls.FirstOrDefaultAsync(u => 
-            u.LongUrl == urlShorty.LongUrl);
+            u.LongUrl == urlShortener.LongUrl);
         if (temp is not null)
             return temp;
         
-        var url = await _db.Urls.AddAsync(urlShorty);
+        var url = await _db.Urls.AddAsync(urlShortener);
         await _db.SaveChangesAsync();
 
         return url.Entity;
     }
 
-    public async Task<UrlShorty?> UpdateShortUrl(string urlShort, string urlLong)
+    public async Task<UrlShortener?> UpdateShortUrl(string urlShort, string urlLong)
     {
         var urlToUpdate = await _db.Urls.FirstOrDefaultAsync(u =>
             u.LongUrl == urlLong);

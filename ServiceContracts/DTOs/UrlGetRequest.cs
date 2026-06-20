@@ -2,7 +2,9 @@
 
 namespace ServiceContracts.DTOs;
 
-public record UrlShortyGetRequest(
+public record UrlGetRequest
+{
+    [Required]
     [StringLength(7, MinimumLength = 7)]
-    string? UrlShort
-    );
+    public String UrlShort { get; set; } = string.Empty;
+}

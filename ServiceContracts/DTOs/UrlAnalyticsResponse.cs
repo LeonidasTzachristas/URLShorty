@@ -1,6 +1,6 @@
 ﻿namespace ServiceContracts.DTOs;
 
-public record UrlShortyResponseFull
+public record UrlAnalyticsResponse
 {
     public string? LongUrl { get; set; }
 

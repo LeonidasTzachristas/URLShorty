@@ -4,14 +4,14 @@ namespace ServiceContracts.DTOs.Extensions;
 
 public static class UrlShortyResponseFullExtensions
 {
-    public static UrlShortyResponseFull ToUrlShortyResponseFull(this UrlShorty urlShorty)
+    public static UrlAnalyticsResponse ToUrlShortyResponseFull(this UrlShortener urlShortener)
     {
-        return new UrlShortyResponseFull()
+        return new UrlAnalyticsResponse()
         {
-            LongUrl = urlShorty.LongUrl,
-            ShortUrl = urlShorty.ShortUrl,
-            CreatedAt = urlShorty.CreatedAt,
-            Clicks = urlShorty.Clicks
+            LongUrl = urlShortener.LongUrl,
+            ShortUrl = urlShortener.ShortUrl,
+            CreatedAt = urlShortener.CreatedAt,
+            Clicks = urlShortener.Clicks
         };
     }
 }

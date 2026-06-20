@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Entities.Migrations
 {
-    [DbContext(typeof(UrlShortyDbContext))]
+    [DbContext(typeof(UrlShortenerDbContext))]
     partial class UrlShortyDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -22,7 +22,7 @@ namespace Entities.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("Entities.UrlShorty", b =>
+            modelBuilder.Entity("Entities.UrlShortener", b =>
                 {
                     b.Property<long>("UrlId")
                         .ValueGeneratedOnAdd()

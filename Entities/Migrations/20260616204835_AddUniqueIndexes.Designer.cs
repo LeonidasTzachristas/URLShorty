@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Entities.Migrations
 {
-    [DbContext(typeof(UrlShortyDbContext))]
+    [DbContext(typeof(UrlShortenerDbContext))]
     [Migration("20260616204835_AddUniqueIndexes")]
     partial class AddUniqueIndexes
     {
