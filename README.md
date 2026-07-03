@@ -13,6 +13,7 @@ This project allows users to convert long URLs into short codes and redirect bac
 - Store URLs in a database (MySQL)
 - Clean layered architecture (Controller → Service → Data layer)
 - Async API endpoints
+- API Keys for protected endpoints
 
 ---
 
@@ -42,7 +43,7 @@ URLShorty
 
 ## API Endpoints
 
-### Create Short URL
+### Create Short URL (Protected)
 
 ```http
 POST /api/urls
@@ -60,13 +61,13 @@ Response:
 
 ```json
 {
-  "urlShort": "aB12Cd",
+  "url": "aB12Cd",
 }
 ```
 
 ---
 
-### Redirect To Original URL
+### Redirect To Original URL (Public)
 
 ```http
 GET /api/urls/{urlShort}
@@ -81,13 +82,14 @@ GET /api/urls/aB12Cd
 Response:
 
 ```http
-301 Moved Permanently
-Location: https://www.google.com
+{
+  "url": "https://www.google.com"
+}
 ```
 
 ---
 
-### Get URL Analytics
+### Get URL Analytics (Protected)
 
 ```http
 GET /api/urls/{urlShort}/analytics
@@ -106,7 +108,7 @@ Example Response:
 
 ---
 
-### Get Analytics For All URLs
+### Get Analytics For All URLs (Protected)
 
 ```http
 GET /api/urls
