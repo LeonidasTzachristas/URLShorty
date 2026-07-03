@@ -20,9 +20,6 @@ public class UrlShortenerService : IUrlShortenerService
     
     public async Task<UrlResponse> AddUrlAsync(UrlAddRequest urlRequest)
     {
-        if (string.IsNullOrEmpty(urlRequest.UrlLong))
-            return null;
-            
         var initial = new UrlShortener()
         {
             LongUrl = urlRequest.UrlLong,
@@ -54,9 +51,7 @@ public class UrlShortenerService : IUrlShortenerService
 
     public async Task<UrlAnalyticsResponse?> GetAnalyticsAsync(UrlGetRequest urlRequest)
     {
-        ArgumentNullException.ThrowIfNull(urlRequest);
         var urlShort = urlRequest.UrlShort;
-        ArgumentNullException.ThrowIfNull(urlShort);
 
         var urlResponse = await _urlShortenerRepository.GetByShortUrlAsync(urlShort);
         
